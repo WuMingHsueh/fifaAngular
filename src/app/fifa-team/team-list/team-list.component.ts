@@ -1,5 +1,5 @@
-
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { FifaTeamService } from './../fifa-team.service';
 import { ConfigService } from '../../config.service';
@@ -10,12 +10,11 @@ import { ConfigService } from '../../config.service';
   styleUrls: ['./team-list.component.css']
 })
 export class TeamListComponent implements OnInit {
-  teamList;
+  teamList$: Observable<any[]>;
 
   constructor(public fifaTeam: FifaTeamService) { }
 
   ngOnInit() {
-    this.fifaTeam.getTeamList().subscribe(teamList => this.teamList = teamList);
-    console.log(this.teamList);
+    this.teamList$ = this.fifaTeam.getTeamList();
   }
 }

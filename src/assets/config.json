@@ -1,6 +1,6 @@
 {
   "apiUrl" : {
-    "teamList":  "http://localhost:8000/phpAPI/team.php",
+    "teamList":  "phpAPI/team.php",
     "teamDetail": "phpAPI/teamDetails.php/",
     "session":   "phpAPI/session.php/",
     "login" :    "phpAPI/login.php/",

@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { IConfig } from './iconfig';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
-  configPath:string = 'assets/config.json';
-  config;
+  private configPath: string = 'assets/config.json';
+  private config: IConfig;
 
-  constructor(private http: HttpClient) {
-    this.http.get(this.configPath).subscribe(result => {this.config = result});
+  constructor(private http: HttpClient) { }
+
+  getConfig(): IConfig {
+    return this.config;
   }
 
-  getConfig() {
-    return this.http.get(this.configPath);
+  configSubscribe(): Observable<IConfig> {
+    return this.http.get<IConfig>(this.configPath);
   }
 }
+

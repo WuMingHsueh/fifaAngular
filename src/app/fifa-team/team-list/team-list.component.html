@@ -1,5 +1,5 @@
 <div class="team-list-container">
-    <div class="team" *ngFor="let team of teamList" >
+    <div class="team" *ngFor="let team of teamList$ | async" >
         <div class="team-info row">
             <div class="col-lg-1 rank">
                 <span>{{ team.rank }}</span>
