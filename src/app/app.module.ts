@@ -11,7 +11,7 @@ import { FifaTeamModule } from './fifa-team/fifa-team.module';
 @NgModule({
   declarations: [
     AppComponent,
-    TopBarComponent
+    TopBarComponent,
   ],
   imports: [
     BrowserModule,
