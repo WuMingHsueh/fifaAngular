@@ -1,11 +1,10 @@
 <div class="container">
   <div class="card login-card">
     <ng-container *ngIf="registerForm.invalid &&
-     ((account.dirty || account.touched) ||
-      (password.dirty || password.touched) ||
-      (repassword.dirty || repassword.touched) ||
-      (username.dirty || username.touched)) &&
-      ((password.dirty || password.touched) && repassword.touched)">
+    (
+      (account.touched && password.touched && repassword.touched && username.touched) ||
+      (account.dirty && password.dirty && repassword.dirty && username.dirty)
+    ) && ( !account.pristine || !password.pristine || !repassword.pristine || !username.pristine)">
       <div class="alert alert-danger">
         <ul>
           <li *ngIf="account.invalid && (account.dirty || account.touched) && account['errors']['required'] " >
@@ -28,9 +27,10 @@
         </ul>
       </div>
     </ng-container>
+    <div class="alert alert-danger" *ngIf="errorMessage" align="center">{{ errorMessage }}</div>
     <div class="login-form">
       <form class="form-horizontal" name="registerForm" role="form"
-        [formGroup]="registerForm">
+        [formGroup]="registerForm" (submit)="sendRegister()">
 
         <div class="form-group">
           <label for="email">Account</label>

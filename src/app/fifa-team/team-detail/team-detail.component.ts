@@ -1,4 +1,7 @@
+import { UserService } from './../../user/user.service';
+import { FifaTeamService } from './../fifa-team.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-team-detail',
@@ -6,8 +9,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./team-detail.component.css']
 })
 export class TeamDetailComponent implements OnInit {
+  get userName() {
+      return this.userService.loginUser;
+  }
 
-  constructor() { }
+  constructor(private router: Router,
+              private fifaTeam: FifaTeamService,
+              private userService: UserService) { }
 
   ngOnInit() {
   }

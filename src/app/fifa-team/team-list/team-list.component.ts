@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { FifaTeamService } from './../fifa-team.service';
 import { ConfigService } from '../../config.service';
+import { UserService } from '../../user/user.service';
 
 @Component({
   selector: 'app-team-list',
@@ -12,7 +13,7 @@ import { ConfigService } from '../../config.service';
 export class TeamListComponent implements OnInit {
   teamList$: Observable<any[]>;
 
-  constructor(public fifaTeam: FifaTeamService) { }
+  constructor(public fifaTeam: FifaTeamService, public userService: UserService) { }
 
   ngOnInit() {
     this.teamList$ = this.fifaTeam.getTeamList();

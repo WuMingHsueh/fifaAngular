@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from './../user.service';
 
 @Component({
   selector: 'app-login',
@@ -6,12 +8,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  username: string = '';
-  password: string = '';
+  username: ''
+  password: ''
+  errorMessage: string = '';
 
-  constructor() { }
+  constructor(private userSerivce: UserService, private routes: Router) { }
 
   ngOnInit() {
   }
 
+  sendLogin() {
+    this.userSerivce.login(this.username, this.password)
+        .subscribe(
+          () => {
+            console.log(this.userSerivce.loginUser);
+            this.routes.navigateByUrl('teamList');
+          },
+          errorResponse => {
+            this.errorMessage = errorResponse['error']['msg'];
+          }
+        );
+  }
 }

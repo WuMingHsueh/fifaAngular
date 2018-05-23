@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { PasswordCompareValidator } from './password-compare';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-register',
@@ -10,8 +12,11 @@ import { PasswordCompareValidator } from './password-compare';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
+  errorMessage: string = '';
 
-  constructor(private formBuild: FormBuilder) { }
+  constructor(private formBuild: FormBuilder,
+              private router: Router,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuild.group({
@@ -26,4 +31,19 @@ export class RegisterComponent implements OnInit {
   get password() { return this.registerForm.get('password'); }
   get repassword() { return this.registerForm.get('repassword'); }
   get username() { return this.registerForm.get('username'); }
+
+  sendRegister() {
+    this.userService.register(this.registerForm.get('account').value,
+                              this.registerForm.get('password').value,
+                              this.registerForm.get('repassword').value,
+                              this.registerForm.get('username').value)
+    .subscribe(
+      () => {
+        this.router.navigateByUrl('login');
+      }, errorResponse => {
+        this.errorMessage = errorResponse['error']['msg'];
+        this.registerForm.reset();
+      }
+    );
+  }
 }

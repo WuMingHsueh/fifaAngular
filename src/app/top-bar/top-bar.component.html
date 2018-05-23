@@ -10,11 +10,11 @@
     </span>
   </div>
   <div class="col-xs-5" align="right">
-    <span>
+    <span *ngIf="!isloggined" >
       <a routerLink="/login">login</a>
     </span>
-    <!-- <span>
-      <a href="">logout</a>
-    </span> -->
+    <span *ngIf="isloggined" >
+      <a (click)="doLogout()">{{ loginUser }} logout</a>
+    </span>
   </div>
 </div>
