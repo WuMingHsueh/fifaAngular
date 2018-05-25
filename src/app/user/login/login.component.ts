@@ -20,12 +20,12 @@ export class LoginComponent implements OnInit {
   sendLogin() {
     this.userSerivce.login(this.username, this.password)
         .subscribe(
-          () => {
-            console.log(this.userSerivce.loginUser);
-            this.routes.navigateByUrl('teamList');
-          },
-          errorResponse => {
-            this.errorMessage = errorResponse['error']['msg'];
+          (response) => {
+            if (response["loginStatus"]) {
+              this.routes.navigateByUrl('teamList');
+            } else {
+              this.errorMessage = response["msg"];
+            }
           }
         );
   }

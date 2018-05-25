@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { Observable, throwError, observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,27 +12,39 @@ export class UserService {
   isLoggined:boolean = false;
   loginUser:string = '';
 
-  private loginUrl: string = 'phpAPI/login.php';
-  private logoutUrl: string = 'phpAPI/logout.php';
-  private regiserUrl: string = 'phpAPI/register.php';
+  private loginUrl: string = 'phpRestAPI/login.php';
+  private logoutUrl: string = 'phpRestAPI/logout.php';
+  private regiserUrl: string = 'phpRestAPI/register.php';
+  private checkLoginUrl :string = 'phpRestAPI/session.php';
   private httpOption = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json; charset=UTF-8'
     })
   };
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) {
+  }
+
+  initLoginStatus() {
+    this.http.get(this.checkLoginUrl).subscribe(
+      response => {
+        this.loginUrl = (this.isLoggined = response["loginStatus"])? response["user"]: '';
+      }
+    );
+  }
 
   login(userId: string, userPwd: string): Observable<any> {
-    let userInfo = new HttpParams().append('username', userId).append('password', userPwd);
+    let userInfo = {
+      "username": userId,
+      "password": userPwd
+    }
     return this.http.post(this.loginUrl, userInfo, this.httpOption)
               .pipe(
-                tap(() => {
-                  this.isLoggined = true;
-                  this.loginUser = userId;
+                tap((response) => {
+                  this.isLoggined = response['loginStatus'];
+                  this.loginUser = (this.isLoggined)? userId: '';
                 })
               );
-
   }
 
   logout(): Observable<any> {
@@ -42,15 +56,28 @@ export class UserService {
     );
   }
 
-  checkLogin() {
-
+  register(userId, userPwd, userPwdAgain, userName): Observable<any> {
+    let userInfo = {
+      'userId': userId,
+      'userPwd': userPwd,
+      'userPwdAgain': userPwdAgain,
+      'userName': userName
+    };
+    return this.http.post(this.regiserUrl, userInfo, this.httpOption);
   }
 
-  register(userId, userPwd, userPwdAgain, userName): Observable<any> {
-    let userInfo = new HttpParams().append('userId', userId)
-                                   .append('userPwd', userPwd)
-                                   .append('userPwdAgain', userPwdAgain)
-                                   .append('userName', userName);
-    return this.http.post(this.regiserUrl, userInfo, this.httpOption);
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    this.http.get(this.checkLoginUrl).subscribe(
+      response => {
+        this.isLoggined = response["loginStatus"];
+        if (!this.isLoggined) {
+          this.loginUser = '';
+          this.router.navigateByUrl("login");
+        } else {
+          this.loginUrl = response["user"];
+        }
+      }
+    )
+    return this.isLoggined;
   }
 }

@@ -1,3 +1,31 @@
-<p>
-  team-detail works!
-</p>
+<ng-container *ngIf="teamDetail$ | async as teamDetail">
+<div class="team-details-container card" >
+  <div class="team-logo">
+    <img title="Image Courtesy: Wikipedia" [src]="teamDetail.logoUrl">
+  </div>
+  <div class="name">
+      <span>{{ teamDetail.name }}</span> (
+      <span>{{ teamDetail.fifaCode }}</span>)
+  </div>
+  <div class="detail">
+      <div class="label"><span>Nickname</span></div>
+      <div class="title"><span>{{ teamDetail.nickname }}</span></div>
+  </div>
+  <div class="detail">
+      <div class="label"><span>FIFA Ranking</span></div>
+      <div class="title"><span>{{ teamDetail.fifaRanking }}</span></div>
+  </div>
+  <div class="detail">
+      <div class="label"><span>Association</span></div>
+      <div class="title"><span>{{ teamDetail.association }}</span></div>
+  </div>
+  <div class="detail">
+      <div class="label"><span>Head Coach</span></div>
+      <div class="title"><span>{{ teamDetail.headCoach }}</span></div>
+  </div>
+  <div class="detail">
+      <div class="label"><span>Captain</span></div>
+      <div class="title"><span>{{ teamDetail.captain }}</span></div>
+  </div>
+</div>
+</ng-container>

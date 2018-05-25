@@ -2,7 +2,7 @@
   "apiUrl" : {
     "teamList":  "phpAPI/team.php",
     "teamDetail": "phpAPI/teamDetails.php/",
-    "session":   "phpAPI/session.php/",
+    "session":   "phpAPI/session.php",
     "login" :    "phpAPI/login.php",
     "logout" :   "phpAPI/logout.php",
     "register":  "phpAPI/register.php"

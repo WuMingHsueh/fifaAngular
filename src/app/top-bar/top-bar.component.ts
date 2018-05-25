@@ -1,5 +1,6 @@
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { UserService } from './../user/user.service';
 
 @Component({
@@ -14,6 +15,8 @@ export class TopBarComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
+    console.log(this.userService.isLoggined);
+    console.log(this.userService.loginUser);
   }
 
   doLogout() {

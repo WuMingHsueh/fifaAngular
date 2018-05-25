@@ -6,13 +6,15 @@ import { map } from 'rxjs/operators';
 import { ConfigService } from '../config.service';
 import { IConfig } from './../iconfig';
 import { Team } from './team';
+import { TeamDetail } from './team-detail';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FifaTeamService {
-  teamListUrl: string = 'phpAPI/team.php';;
-  tesamDetailUrl: string;
+  private teamListUrl: string = 'phpRestAPI/team.php';
+  private teamDetailUrl: string = 'phpRestAPI/teamDetails.php/';
+  private tesamDetailUrl: string;
 
   constructor(private configService: ConfigService, private http: HttpClient) {  }
 
@@ -23,5 +25,9 @@ export class FifaTeamService {
         result.sort( (a:Team ,  b:Team) => ( a.rank < b.rank)? -1 : 1 )
       )
     );
+  }
+
+  getTeamDetail(codeId): Observable<TeamDetail> {
+    return this.http.get<TeamDetail>(this.teamDetailUrl + codeId);
   }
 }
