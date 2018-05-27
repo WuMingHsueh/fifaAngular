@@ -16,9 +16,9 @@ export class TeamDetailComponent implements OnInit {
   teamDetail$: Observable<TeamDetail>;
 
   constructor(private router: Router,
-              private routerActive: ActivatedRoute,
-              private fifaTeam: FifaTeamService,
-              private userService: UserService) { }
+    private routerActive: ActivatedRoute,
+    private fifaTeam: FifaTeamService,
+    private userService: UserService) { }
 
   ngOnInit() {
     this.codeId = this.routerActive.snapshot.paramMap.get('id');
@@ -28,12 +28,12 @@ export class TeamDetailComponent implements OnInit {
 
   checkCanActive() {
     this.userService.checkLogin().subscribe(
-      () => {
-        this.teamDetail$ = this.fifaTeam.getTeamDetail(this.codeId);
-      },
-      () => {
-        console.clear();
-        this.router.navigateByUrl('login');
+      response => {
+        if (response['loginStatus']) {
+          this.teamDetail$ = this.fifaTeam.getTeamDetail(this.codeId);
+        } else {
+          this.router.navigateByUrl('/login');
+        }
       }
     )
   }

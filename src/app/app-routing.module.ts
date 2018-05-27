@@ -8,15 +8,15 @@ import { LoginComponent } from './user/login/login.component';
 import { UserService } from './user/user.service';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'teamList', pathMatch: 'full'},
-  {path: 'teamList',        component: TeamListComponent},
-  {path: 'teamDetails/:id', component: TeamDetailComponent, canActivate: [UserService]},
-  {path: 'register',        component: RegisterComponent},
-  {path: 'login',           component: LoginComponent}
+  { path: '', redirectTo: 'teamList', pathMatch: 'full' },
+  { path: 'teamList', component: TeamListComponent },
+  { path: 'teamDetails/:id', component: TeamDetailComponent, canActivate: [UserService] },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

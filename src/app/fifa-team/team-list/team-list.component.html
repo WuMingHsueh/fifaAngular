@@ -1,15 +1,15 @@
 <div class="team-list-container">
-    <div class="team" *ngFor="let team of teamList$ | async" >
-        <div class="team-info row">
-            <div class="col-lg-1 rank">
-                <span>{{ team.rank }}</span>
-            </div>
-            <div class='col-sm-3'>
-                <img class="flag" [src]="team.flagUrl">
-            </div>
-            <div class="name col-lg-6">
-                <a routerLink="/teamDetails/{{ team.code }}" title="Image Courtesy: Wikipedia">{{ team.name }}</a>
-            </div>
-        </div>
+  <div class="team" *ngFor="let team of teamList$ | async">
+    <div class="team-info row">
+      <div class="col-lg-1 rank">
+        <span>{{ team.rank }}</span>
+      </div>
+      <div class='col-sm-3'>
+        <img class="flag" [src]="team.flagUrl">
+      </div>
+      <div class="name col-lg-6">
+        <a [routerLink]="['/', 'teamDetails', team.code]" title="Image Courtesy: Wikipedia">{{ team.name }}</a>
+      </div>
     </div>
+  </div>
 </div>

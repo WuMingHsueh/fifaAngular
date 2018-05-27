@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
@@ -9,13 +10,13 @@ import { tap, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserService {
-  isLoggined:boolean = false;
-  loginUser:string = '';
-
+  isLoggined: boolean = false;
+  loginUser: string = '';
+  apiUrl: any;
   private loginUrl: string = 'phpRestAPI/login.php';
   private logoutUrl: string = 'phpRestAPI/logout.php';
   private regiserUrl: string = 'phpRestAPI/register.php';
-  private checkLoginUrl :string = 'phpRestAPI/session.php';
+  private checkLoginUrl: string = 'phpRestAPI/session.php';
   private httpOption = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json; charset=UTF-8'
@@ -23,12 +24,13 @@ export class UserService {
   };
 
   constructor(private http: HttpClient, private router: Router) {
+    this.apiUrl = environment.baseApiUrl;
   }
 
   initLoginStatus() {
     this.http.get(this.checkLoginUrl).subscribe(
       response => {
-        this.loginUrl = (this.isLoggined = response["loginStatus"])? response["user"]: '';
+        this.loginUrl = (this.isLoggined = response["loginStatus"]) ? response["user"] : '';
       }
     );
   }
@@ -38,18 +40,18 @@ export class UserService {
       "username": userId,
       "password": userPwd
     }
-    return this.http.post(this.loginUrl, userInfo, this.httpOption)
-              .pipe(
-                tap((response) => {
-                  this.isLoggined = response['loginStatus'];
-                  this.loginUser = (this.isLoggined)? userId: '';
-                })
-              );
+    return this.http.post(`${this.apiUrl}/login.php`, userInfo, this.httpOption)
+      .pipe(
+        tap((response) => {
+          this.isLoggined = response['loginStatus'];
+          this.loginUser = (this.isLoggined) ? userId : '';
+        })
+      );
   }
 
   logout(): Observable<any> {
     return this.http.get(this.logoutUrl).pipe(
-      tap( () => {
+      tap(() => {
         this.isLoggined = false;
         this.loginUser = '';
       })
@@ -79,5 +81,15 @@ export class UserService {
       }
     )
     return this.isLoggined;
+  }
+
+  checkLogin(): Observable<any> {
+    return this.http.get(this.checkLoginUrl).pipe(
+      tap(
+        response => {
+          this.loginUrl = (this.isLoggined = response["loginStatus"]) ? response['user'] : '';
+        }
+      )
+    )
   }
 }
