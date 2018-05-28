@@ -2,21 +2,27 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from './../../environments/environment';
 
-import { ConfigService } from '../config.service';
-import { IConfig } from './../iconfig';
 import { Team } from './team';
 import { TeamDetail } from './team-detail';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FifaTeamService {
-  private teamListUrl: string = 'phpRestAPI/team.php';
-  private teamDetailUrl: string = 'phpRestAPI/teamDetails.php/';
-  private tesamDetailUrl: string;
+  private teamListUrl: string = '';
+  private teamDetailUrl: string = '';
 
-  constructor(private configService: ConfigService, private http: HttpClient) {  }
+  constructor(private http: HttpClient) {
+    this.initApiUrl();
+  }
+
+  initApiUrl() {
+    this.teamListUrl = environment.ApiUrlConfig.teamList;
+    this.teamDetailUrl = environment.ApiUrlConfig.teamDetail;
+  }
 
   getTeamList(): Observable<Team[]> {
     return this.http.get<Team[]>(this.teamListUrl)

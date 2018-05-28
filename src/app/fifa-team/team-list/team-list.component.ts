@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { FifaTeamService } from './../fifa-team.service';
-import { ConfigService } from '../../config.service';
 import { UserService } from '../../user/user.service';
 
 @Component({
