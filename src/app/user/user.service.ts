@@ -39,7 +39,13 @@ export class UserService implements CanActivate {
   initLoginStatus() {
     this.http.get(this.checkLoginUrl).subscribe(
       response => {
-        this.loginUser = (this.isLoggined = response["loginStatus"]) ? response["user"] : '';
+        this.isLoggined = response["loginStatus"];
+        this.loginUser = response["user"];
+      }
+      ,
+      errors => {
+        this.isLoggined = errors["loginStatus"];
+        this.loginUser = '';
       }
     );
   }
@@ -53,7 +59,11 @@ export class UserService implements CanActivate {
       .pipe(
         tap((response) => {
           this.isLoggined = response['loginStatus'];
-          this.loginUser = (this.isLoggined) ? userId : '';
+          this.loginUser = userId;
+          this.router.navigateByUrl('teamList');
+        }, error => {
+          this.isLoggined = error['loginStatus'];
+          this.loginUser = '';
         })
       );
   }
@@ -81,12 +91,11 @@ export class UserService implements CanActivate {
     this.http.get(this.checkLoginUrl).subscribe(
       response => {
         this.isLoggined = response["loginStatus"];
-        if (!this.isLoggined) {
-          this.loginUser = '';
-          this.router.navigateByUrl("login");
-        } else {
-          this.loginUser = response["user"];
-        }
+        this.loginUser = response["user"];
+      }, error => {
+        this.isLoggined = error["loginStatus"];
+        this.loginUser = '';
+        this.router.navigateByUrl("login");
       }
     )
     return this.isLoggined;

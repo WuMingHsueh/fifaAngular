@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   password: ''
   errorMessage: string = '';
 
-  constructor(private userSerivce: UserService, private routes: Router) { }
+  constructor(private userSerivce: UserService) { }
 
   ngOnInit() {
   }
@@ -20,13 +20,9 @@ export class LoginComponent implements OnInit {
   sendLogin() {
     this.userSerivce.login(this.username, this.password)
         .subscribe(
-          (response) => {
-            if (response["loginStatus"]) {
-              this.routes.navigateByUrl('teamList');
-            } else {
-              this.errorMessage = response["msg"];
-            }
-          }
+          () => {}
+          ,
+          errors => this.errorMessage = errors["msg"]
         );
   }
 }

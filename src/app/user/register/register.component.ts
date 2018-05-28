@@ -38,13 +38,11 @@ export class RegisterComponent implements OnInit {
                               this.registerForm.get('repassword').value,
                               this.registerForm.get('username').value)
     .subscribe(
-      (response) => {
-        if (response['registerStatus']) {
-          this.router.navigateByUrl('login');
-        } else {
-          this.errorMessage = response['msg'];
-          this.registerForm.reset();
-        }
+      () => this.router.navigateByUrl('login')
+      ,
+      errors => {
+        this.errorMessage = errors['msg'];
+        this.registerForm.reset();
       }
     );
   }
