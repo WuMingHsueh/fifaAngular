@@ -4,7 +4,15 @@
 
 export const environment = {
   production: false,
-  baseApiUrl: '/phpRestAPI'
+  baseApiUrl: 'phpRestAPI/',
+  ApiUrlConfig: {
+    "teamList":  "phpRestAPI/team.php",
+    "teamDetail": "phpRestAPI/teamDetails.php/",
+    "session":   "phpRestAPI/session.php",
+    "login" :    "phpRestAPI/login.php",
+    "logout" :   "phpRestAPI/logout.php",
+    "register":  "phpRestAPI/register.php"
+  }
 };
 
 /*
