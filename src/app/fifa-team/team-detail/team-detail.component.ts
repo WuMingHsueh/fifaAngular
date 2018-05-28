@@ -21,20 +21,19 @@ export class TeamDetailComponent implements OnInit {
     private userService: UserService) { }
 
   ngOnInit() {
-    this.codeId = this.routerActive.snapshot.paramMap.get('id');
-    // this.teamDetail$ = this.fifaTeam.getTeamDetail(this.codeId);
-    this.checkCanActive();
+    this.getUrlPathId();
+    this.initTeamDetailData();
   }
 
-  checkCanActive() {
-    this.userService.checkLogin().subscribe(
-      response => {
-        if (response['loginStatus']) {
-          this.teamDetail$ = this.fifaTeam.getTeamDetail(this.codeId);
-        } else {
-          this.router.navigateByUrl('/login');
-        }
-      }
-    )
+  getUrlPathId() {
+    this.routerActive.params.subscribe(query => this.codeId = query["id"]);
+  }
+
+  initTeamDetailData() {
+    if ( this.userService.isLoggined && this.codeId ) {
+      this.teamDetail$ = this.fifaTeam.getTeamDetail(this.codeId);
+    } else {
+      this.router.navigateByUrl('/login');
+    }
   }
 }

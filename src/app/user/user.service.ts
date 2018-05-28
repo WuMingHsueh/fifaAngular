@@ -10,10 +10,10 @@ import { environment } from './../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService implements CanActivate {
   isLoggined: boolean = false;
   loginUser: string = '';
-  private apiUrl: string = '';
+
   private loginUrl: string = '';
   private logoutUrl: string = '';
   private regiserUrl: string = '';
@@ -90,15 +90,5 @@ export class UserService {
       }
     )
     return this.isLoggined;
-  }
-
-  checkLogin(): Observable<any> {
-    return this.http.get(this.checkLoginUrl).pipe(
-      tap(
-        response => {
-          this.loginUser = (this.isLoggined = response["loginStatus"]) ? response['user'] : '';
-        }
-      )
-    )
   }
 }
