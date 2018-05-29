@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from './../user.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   password: ''
   errorMessage: string = '';
 
-  constructor(private userSerivce: UserService) { }
+  constructor(private router:Router, private activatedRoute: ActivatedRoute, private userSerivce: UserService) { }
 
   ngOnInit() {
   }
@@ -20,7 +20,13 @@ export class LoginComponent implements OnInit {
   sendLogin() {
     this.userSerivce.login(this.username, this.password)
         .subscribe(
-          () => {}
+          response => {
+            if (this.activatedRoute.snapshot.queryParams["code"]) {
+              this.router.navigate(['/', 'teamDetails', this.activatedRoute.snapshot.queryParams["code"]]);
+            } else {
+              this.router.navigate(['']);
+            }
+          }
           ,
           errors => this.errorMessage = errors["msg"]
         );

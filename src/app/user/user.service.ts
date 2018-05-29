@@ -60,7 +60,6 @@ export class UserService implements CanActivate {
         tap((response) => {
           this.isLoggined = response['loginStatus'];
           this.loginUser = userId;
-          this.router.navigateByUrl('teamList');
         }, error => {
           this.isLoggined = error['loginStatus'];
           this.loginUser = '';
@@ -95,7 +94,11 @@ export class UserService implements CanActivate {
       }, error => {
         this.isLoggined = error["loginStatus"];
         this.loginUser = '';
-        this.router.navigateByUrl("login");
+        this.router.navigate(["login/"], {
+          queryParams: {
+            code: route.params["id"]
+          }
+        });
       }
     )
     return this.isLoggined;
