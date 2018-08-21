@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
         .subscribe(
           response => {
             if (this.activatedRoute.snapshot.queryParams["code"]) {
-              this.router.navigate(['/', 'teamDetails', this.activatedRoute.snapshot.queryParams["code"]]);
+              this.router.navigate(['/', 'teamDetail', this.activatedRoute.snapshot.queryParams["code"]]);
             } else {
               this.router.navigate(['']);
             }

@@ -38,7 +38,10 @@ export class RegisterComponent implements OnInit {
                               this.registerForm.get('repassword').value,
                               this.registerForm.get('username').value)
     .subscribe(
-      () => this.router.navigateByUrl('login')
+      () => {
+        alert("註冊成功 請登入");
+        this.router.navigateByUrl('login');
+      }
       ,
       errors => {
         this.errorMessage = errors['msg'];

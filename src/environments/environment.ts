@@ -4,14 +4,14 @@
 
 export const environment = {
   production: false,
-  baseApiUrl: 'phpRestAPI/',
+  baseApiUrl: '/fifaRestfulPHP/',
   ApiUrlConfig: {
-    "teamList":  "phpRestAPI/team.php",
-    "teamDetail": "phpRestAPI/teamDetails.php/",
-    "session":   "phpRestAPI/session.php",
-    "login" :    "phpRestAPI/login.php",
-    "logout" :   "phpRestAPI/logout.php",
-    "register":  "phpRestAPI/register.php"
+    "teamList":  "/fifaRestfulPHP/index.php/team",
+    "teamDetail": "/fifaRestfulPHP/index.php/teamDetail",
+    "session":   "/fifaRestfulPHP/index.php/checkLogin",
+    "login" :    "/fifaRestfulPHP/index.php/login",
+    "logout" :   "/fifaRestfulPHP/index.php/logout",
+    "register":  "/fifaRestfulPHP/index.php/register"
   }
 };
 

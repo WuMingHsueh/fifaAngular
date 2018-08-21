@@ -10,7 +10,7 @@ import { UserService } from './user/user.service';
 const routes: Routes = [
   { path: '', redirectTo: 'teamList', pathMatch: 'full' },
   { path: 'teamList', component: TeamListComponent },
-  { path: 'teamDetails/:id', component: TeamDetailComponent, canActivate: [UserService] },
+  { path: 'teamDetail/:id', component: TeamDetailComponent, canActivate: [UserService] },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent }
 ];

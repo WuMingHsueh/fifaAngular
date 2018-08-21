@@ -34,6 +34,6 @@ export class FifaTeamService {
   }
 
   getTeamDetail(codeId): Observable<TeamDetail> {
-    return this.http.get<TeamDetail>(this.teamDetailUrl + codeId);
+    return this.http.get<TeamDetail>(this.teamDetailUrl + '/' + codeId);
   }
 }
